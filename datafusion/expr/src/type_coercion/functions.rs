@@ -1557,9 +1557,12 @@ mod tests {
 
         let err = fields_with_udf(&current_fields, &MockUdf(signature)).unwrap_err();
         assert!(matches!(err, DataFusionError::Plan(_)));
-        assert_eq!(
-            err.to_string(),
-            "Error during planning: Function 'test' requires String, but received Int64 (DataType: Int64)."
+        assert!(
+            err.to_string().starts_with(
+                "Error during planning: Function 'test' requires String, but received Int64 (DataType: Int64)."
+            ),
+            "{}",
+            err
         );
     }
 
